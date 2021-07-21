@@ -1,19 +1,36 @@
+import { createStore } from 'redux';
+
 const reducer = (state = 0, action) => {
     switch(action.type) {
         case 'INC':
             return state + 1;
 
+        case 'DEC':
+            return state - 1;
+
         default: 
           return state;
     }
+};
 
-    return 0;
-}
+const store = createStore(reducer);
 
-let state = reducer(undefined, {});
+document
+  .getElementById('inc')
+  .addEventListener('click', () => {
+      store.dispatch({type: 'INC'})
+  })
 
-state = reducer(state, { type: 'INC'});
-console.log(state);
-state = reducer(state, {type: 'INC'});
+  document
+  .getElementById('dec')
+  .addEventListener('click', () => {
+      store.dispatch({type: 'DEC'})
+  })
 
-console.log(state);
+  const update = () => {
+      document
+        .getElementById('counter')
+        .innerHTML = store.getState();
+  }
+
+  store.subscribe(update);
